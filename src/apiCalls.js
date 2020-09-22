@@ -10,7 +10,6 @@ export const takeOrder = (order) => {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      id: order.id,
       name: order.name,
       ingredients: order.ingredients
     })
