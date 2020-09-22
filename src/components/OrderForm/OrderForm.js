@@ -16,11 +16,11 @@ class OrderForm extends Component {
     e.preventDefault();
     if (this.state.name && this.state.ingredients.length) {
       let order = {
-        id: Date.now(),
         name: this.state.name,
         ingredients: this.state.ingredients
       }
       this.props.takeAnOrder(order)
+      console.log('here')
       this.clearInputs();
     } else {
       this.setState({error: "Please add name or ingredient"})
