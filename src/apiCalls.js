@@ -4,15 +4,15 @@ export const getOrders = () => {
 }
 
 export const takeOrder = (order) => {
-  return fetch("http://localhost:3001/api/v1/orders", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      name: order.name,
-      ingredients: order.ingredients
+    return fetch("http://localhost:3001/api/v1/orders", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        name: order.name,
+        ingredients: order.ingredients
+      })
     })
-  })
-    .then((response => response.json()));
+      .then((response => response.json()));
 }

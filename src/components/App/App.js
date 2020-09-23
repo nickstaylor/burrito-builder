@@ -8,23 +8,32 @@ class App extends Component {
   constructor(props) {
     super();
     this.state = {
-      orders: []
+      orders: [],
+      error: ''
     }
   }
 
   componentDidMount() {
     getOrders()
+      // .then(data => console.log(data))
       .then(data => {
         this.setState({
           orders: data.orders
         })
       })
-      .catch(err => console.error('Error fetching:', err));
+      .catch(err => {
+        this.setState({ error: 'Error fetching orders, please try again' })
+      });
   }
 
   takeAnOrder = (order) => {
     takeOrder(order)
-    .then(data => this.setState({orders: [...this.state.orders, data]}))
+      .then(data => {
+        this.setState({ orders: [...this.state.orders, data] })
+      })
+      .catch(err => {
+        this.setState({ error: "Error taking order, please try again" });
+      })
   }
 
 
@@ -36,7 +45,7 @@ class App extends Component {
           <h1>Burrito Builder</h1>
           <OrderForm takeAnOrder={this.takeAnOrder}/>
         </header>
-
+        <h4>{this.state.error}</h4>
         <Orders orders={this.state.orders}/>
       </main>
     );
