@@ -20,7 +20,6 @@ class OrderForm extends Component {
         ingredients: this.state.ingredients
       }
       this.props.takeAnOrder(order)
-      console.log('here')
       this.clearInputs();
     } else {
       this.setState({error: "Please add name or ingredient"})
@@ -34,7 +33,6 @@ class OrderForm extends Component {
   handleIngredientChange = (e) => {
     e.preventDefault()
     let newIngredients = [...this.state.ingredients, e.target.name]
-    console.log(e.target.name);
     this.setState({ingredients: newIngredients})
   }
 
@@ -51,7 +49,7 @@ class OrderForm extends Component {
         </button>
       )
     });
-    console.log('ingredients', this.state.ingredients);
+    // console.log('ingredients', this.state.ingredients);a
     return (
       <form>
         <input
