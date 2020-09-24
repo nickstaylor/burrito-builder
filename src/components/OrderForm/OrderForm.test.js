@@ -48,6 +48,16 @@ describe("OrderForm",() => {
         fireEvent.click(getByText('Submit Order'))
         expect(mockSubmitOrder).toHaveBeenCalled()
     })
+
+    it('should only allow for a maximum of 2 specific ingredidents to be added', () => {
+        const { getByText, queryByText } = render(<OrderForm />);
+        fireEvent.click(getByText("beans"));
+        fireEvent.click(getByText("beans"));
+        expect(queryByText('So sorry, you can only have two of a specific ingredient.')).not.toBeInTheDocument()
+        fireEvent.click(getByText("beans"));
+        expect(getByText('So sorry, you can only have two of a specific ingredient.')).toBeInTheDocument()
+
+    })
         
 
 })
