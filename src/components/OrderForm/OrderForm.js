@@ -32,7 +32,18 @@ class OrderForm extends Component {
 
   handleIngredientChange = (e) => {
     e.preventDefault()
-    let newIngredients = [...this.state.ingredients, e.target.name]
+    const { name } = e.target
+    let count = 0
+    this.state.ingredients.forEach(ingredient => {
+      if (name === ingredient) {
+        count++
+      }
+    })
+    if (count > 1) {
+      this.setState({ error: 'So sorry, you can only have two of a specific ingredient.' })
+      return
+    }
+    let newIngredients = [...this.state.ingredients, name]
     this.setState({ingredients: newIngredients})
   }
 
