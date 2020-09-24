@@ -16,3 +16,15 @@ export const takeOrder = (order) => {
     })
       .then((response => response.json()));
 }
+
+export const deleteOrder = (id) => {
+  try {
+    return fetch(`http://localhost:3001/api/v1/orders/${id}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' }
+    })
+  } catch (err) {
+    console.log(err)
+    return {ok: false}
+  }
+}
