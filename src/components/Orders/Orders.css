@@ -10,3 +10,7 @@
   padding: 0;
   width: 150px;
 }
+
+.delete-btn {
+  margin-bottom: .5em;
+}
