@@ -36,6 +36,19 @@ class App extends Component {
       })
   }
 
+  deleteAnOrder = (id) => {
+    deleteOrder(id)
+      .then(res => {
+        if (res.ok) {
+          let updatedOrders = this.state.orders.filter(order => order.id !== id)
+          this.setState({ orders: updatedOrders })
+          // window.alert("Successfully deleted!")
+        } else {
+          this.setState({ error: "Error taking order, please try again" });
+        }
+      })
+    }
+
 
 
   render() {
@@ -46,7 +59,7 @@ class App extends Component {
           <OrderForm takeAnOrder={this.takeAnOrder}/>
         </header>
         <h4>{this.state.error}</h4>
-        <Orders orders={this.state.orders}/>
+        <Orders orders={this.state.orders} deleteAnOrder={this.deleteAnOrder}/>
       </main>
     );
   }

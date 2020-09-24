@@ -11,6 +11,9 @@ const Orders = props => {
             return <li key={i}>{ingredient}</li>
           })}
         </ul>
+        <button className="delete-btn" role={order.id} onClick={()=> props.deleteAnOrder(order.id)}>
+          Order Done
+        </button>
       </div>
     )
   });
