@@ -63,13 +63,13 @@ describe("App", () => {
 
     
         fireEvent.change(getByPlaceholderText("Name"), { target: { value: "Ted" },});
-        const beans = getByRole("button", { name: "beans" });
+        const beans = getByRole("button", { name: "beans $ 0.65" });
         fireEvent.click(beans);
-        const steak = getByRole("button", { name: "steak" });
+        const steak = getByRole("button", { name: "steak $ 1.50" });
         fireEvent.click(steak);
         fireEvent.click(getByText('Submit Order'))
         await waitFor(() => expect(takeOrder).toHaveBeenCalled())
-        expect(takeOrder).toHaveBeenCalledWith({ name: 'Ted', ingredients: ['beans', 'steak'] })
+        expect(takeOrder).toHaveBeenCalledWith({ name: 'Ted', ingredients: ['beans', 'steak'], cost: 2.15 })
         expect(getByText('Ted')).toBeInTheDocument()
 
 
@@ -98,9 +98,9 @@ describe("App", () => {
         const { getByText, getByRole, getByPlaceholderText, debug } = render(<App />);
 
         fireEvent.change(getByPlaceholderText("Name"), {target: { value: "Ted" },});
-        const beans = getByRole("button", { name: "beans" });
+        const beans = getByRole("button", { name: "beans $ 0.65" });
         fireEvent.click(beans);
-        const steak = getByRole("button", { name: "steak" });
+        const steak = getByRole("button", { name: "steak $ 1.50" });
         fireEvent.click(steak);
         fireEvent.click(getByText("Submit Order"));
         const tedName = await waitFor(() => getByText("Ted"));

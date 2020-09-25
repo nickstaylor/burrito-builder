@@ -11,7 +11,7 @@ describe("OrderForm",() => {
         
         expect(getByPlaceholderText('Name')).toBeInTheDocument()
         expect(getByText("Order: Nothing selected")).toBeInTheDocument()
-        expect(getByText("lettuce")).toBeInTheDocument()
+        expect(getByText("lettuce $ 0.40")).toBeInTheDocument()
     })
 
     it('should updated the Order as name and ingredients are added', () => {
@@ -19,8 +19,8 @@ describe("OrderForm",() => {
         
         const nameInput = getByPlaceholderText("Name")
         fireEvent.change(getByPlaceholderText('Name'), { target: { value: 'Nick' } })
-        fireEvent.click(getByText('beans'))
-        fireEvent.click(getByText('lettuce'))
+        fireEvent.click(getByText('beans $ 0.65'))
+        fireEvent.click(getByText('lettuce $ 0.40'))
         
         expect(getByText('Order: beans, lettuce')).toBeInTheDocument()
         expect(nameInput).toHaveProperty('value', 'Nick')
@@ -33,7 +33,7 @@ describe("OrderForm",() => {
         expect(getByText("Please add name or ingredient")).toBeInTheDocument();
         fireEvent.change(getByPlaceholderText('Name'), { target: { value: 'Nick' } })
         expect(getByText("Please add name or ingredient")).toBeInTheDocument();
-        fireEvent.click(getByText('lettuce'))
+        fireEvent.click(getByText('lettuce $ 0.40'))
         expect(queryByText('Please add name or ingedient')).not.toBeInTheDocument()
         
     })
@@ -44,17 +44,17 @@ describe("OrderForm",() => {
             <OrderForm takeAnOrder={mockSubmitOrder} />)
              
         fireEvent.change(getByPlaceholderText('Name'), { target: { value: 'Nick' } })
-        fireEvent.click(getByText('lettuce'))
+        fireEvent.click(getByText('lettuce $ 0.40'))
         fireEvent.click(getByText('Submit Order'))
         expect(mockSubmitOrder).toHaveBeenCalled()
     })
 
     it('should only allow for a maximum of 2 specific ingredidents to be added', () => {
         const { getByText, queryByText } = render(<OrderForm />);
-        fireEvent.click(getByText("beans"));
-        fireEvent.click(getByText("beans"));
+        fireEvent.click(getByText("beans $ 0.65"));
+        fireEvent.click(getByText("beans $ 0.65"));
         expect(queryByText('So sorry, you can only have two of a specific ingredient.')).not.toBeInTheDocument()
-        fireEvent.click(getByText("beans"));
+        fireEvent.click(getByText("beans $ 0.65"));
         expect(getByText('So sorry, you can only have two of a specific ingredient.')).toBeInTheDocument()
 
     })
