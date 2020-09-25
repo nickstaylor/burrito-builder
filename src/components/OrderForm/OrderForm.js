@@ -7,7 +7,8 @@ class OrderForm extends Component {
     this.state = {
       name: '',
       ingredients: [],
-      error: ''
+      error: '',
+      totalOrderCost: 0
     };
   }
 
@@ -17,7 +18,8 @@ class OrderForm extends Component {
     if (this.state.name && this.state.ingredients.length) {
       let order = {
         name: this.state.name,
-        ingredients: this.state.ingredients
+        ingredients: this.state.ingredients,
+        cost: this.state.totalOrderCost
       }
       this.props.takeAnOrder(order)
       this.clearInputs();
@@ -30,9 +32,10 @@ class OrderForm extends Component {
     this.setState({ name: e.target.value })
   }
 
-  handleIngredientChange = (e) => {
+  handleIngredientandCostChange = (e) => {
     e.preventDefault()
-    const { name } = e.target
+    const { name, id } = e.target
+    console.log(typeof id);
     let count = 0
     this.state.ingredients.forEach(ingredient => {
       if (name === ingredient) {
@@ -44,7 +47,11 @@ class OrderForm extends Component {
       return
     }
     let newIngredients = [...this.state.ingredients, name]
-    this.setState({ingredients: newIngredients})
+
+    let orderCost = this.state.totalOrderCost
+    let total = orderCost + (+id)
+    console.log(total);
+    this.setState({ingredients: newIngredients, totalOrderCost: total})
   }
 
   clearInputs = () => {
@@ -52,35 +59,45 @@ class OrderForm extends Component {
   }
 
   render() {
-    const possibleIngredients = ['beans', 'steak', 'carnitas', 'sofritas', 'lettuce', 'queso fresco', 'pico de gallo', 'hot sauce', 'guacamole', 'jalapenos', 'cilantro', 'sour cream'];
-    const ingredientButtons = possibleIngredients.map(ingredient => {
+    const possibleIngredients = [{ ing: 'beans', cost: 0.65 }, { ing: 'steak', cost: 1.50 }, { ing: 'carnitas', cost: 1.25 },
+      { ing: 'sofritas', cost: 0.80 }, { ing: 'lettuce', cost: 0.40 }, { ing: 'queso fresco', cost: 0.85 },
+      { ing: 'pico de gallo', cost: .75 }, { ing: 'hot sauce', cost: 0.40 }, { ing: 'guacamole', cost: 1.00 },
+      { ing: 'jalapenos', cost: 0.40 }, { ing: 'cilantro', cost: 0.00 }, { ing: 'sour cream', cost: 0.50 }];
+    const ingredientButtons = possibleIngredients.map((ingredient, i) => {
       return (
-        <button key={ingredient} name={ingredient} onClick={e => this.handleIngredientChange(e)}>
-          {ingredient}
+        <button key={i} name={ingredient.ing} id={ingredient.cost} style={{'margin': '.3em'}}
+         onClick={e => this.handleIngredientandCostChange(e)}>
+          {ingredient.ing} $ {Number(ingredient.cost).toFixed(2)}
         </button>
       )
     });
     // console.log('ingredients', this.state.ingredients);a
     return (
-      <form>
+      <form
+        style={{
+          'display': "flex",
+          "flexDirection": "column",
+          "alignItems": "center",
+        }}
+      >
         <input
-          type='text'
-          placeholder='Name'
-          name='name'
+          type="text"
+          placeholder="Name"
+          name="name"
           value={this.state.name}
-          onChange={e => this.handleNameChange(e)}
+          onChange={(e) => this.handleNameChange(e)}
+          style={{'marginBottom': '2em'}}
         />
+        <div>
+          {ingredientButtons}
+        </div>
+        <p>Order: {this.state.ingredients.join(", ") || "Nothing selected"}</p>
+        <p>Order Cost: ${Number(this.state.totalOrderCost).toFixed(2)}</p>
 
-        { ingredientButtons }
-
-        <p>Order: { this.state.ingredients.join(', ') || 'Nothing selected' }</p>
-
-        <button onClick={e => this.handleSubmit(e)}>
-          Submit Order
-        </button>
+        <button onClick={(e) => this.handleSubmit(e)}>Submit Order</button>
         {this.state.error && <p>{this.state.error}</p>}
       </form>
-    )
+    );
   }
 }
 
