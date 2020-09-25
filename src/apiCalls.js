@@ -11,7 +11,8 @@ export const takeOrder = (order) => {
       },
       body: JSON.stringify({
         name: order.name,
-        ingredients: order.ingredients
+        ingredients: order.ingredients,
+        cost: order.cost
       })
     })
       .then((response => response.json()));
