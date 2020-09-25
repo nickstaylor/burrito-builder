@@ -60,7 +60,6 @@ describe("App", () => {
    
             });
         const { getByText, getByPlaceholderText, getByRole } = render(<App />);
-
     
         fireEvent.change(getByPlaceholderText("Name"), { target: { value: "Ted" },});
         const beans = getByRole("button", { name: "beans $ 0.65" });
@@ -77,7 +76,8 @@ describe("App", () => {
 
     it("Should display error if get request fails", async () => {
       getOrders.mockRejectedValueOnce([404]);
-      const { findByRole } = render(<App />);
+        const { findByRole } = render(<App />);
+        
         const errorMessage = await findByRole("heading", {
           name: 'Error fetching orders, please try again'
       });
@@ -95,7 +95,7 @@ describe("App", () => {
           });
         await deleteOrder.mockResolvedValueOnce({ ok: true })
         
-        const { getByText, getByRole, getByPlaceholderText, debug } = render(<App />);
+        const { getByText, getByRole, getByPlaceholderText } = render(<App />);
 
         fireEvent.change(getByPlaceholderText("Name"), {target: { value: "Ted" },});
         const beans = getByRole("button", { name: "beans $ 0.65" });
@@ -105,14 +105,11 @@ describe("App", () => {
         fireEvent.click(getByText("Submit Order"));
         const tedName = await waitFor(() => getByText("Ted"));
         expect(tedName).toBeInTheDocument();
-        // debug()
         const button = await waitFor(()=> getByRole("374"));
         fireEvent.click(button);
-    
         expect(deleteOrder).toHaveBeenCalled();
         expect(deleteOrder).toHaveBeenCalledWith(374);
         await waitFor(()=> expect(tedName).not.toBeInTheDocument())
-        debug()
     
     })
 

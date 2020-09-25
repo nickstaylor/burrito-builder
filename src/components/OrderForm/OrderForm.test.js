@@ -48,7 +48,7 @@ describe("OrderForm",() => {
         fireEvent.click(getByText('Submit Order'))
         expect(mockSubmitOrder).toHaveBeenCalled()
     })
-
+    
     it('should only allow for a maximum of 2 specific ingredidents to be added', () => {
         const { getByText, queryByText } = render(<OrderForm />);
         fireEvent.click(getByText("beans $ 0.65"));
@@ -56,6 +56,18 @@ describe("OrderForm",() => {
         expect(queryByText('So sorry, you can only have two of a specific ingredient.')).not.toBeInTheDocument()
         fireEvent.click(getByText("beans $ 0.65"));
         expect(getByText('So sorry, you can only have two of a specific ingredient.')).toBeInTheDocument()
+        
+    })
+    
+    it('should show the cost of the burrito as items are added to the order', () => {
+        const { getByText } = render(<OrderForm />);
+        
+        fireEvent.click(getByText("beans $ 0.65"));
+        fireEvent.click(getByText('lettuce $ 0.40'))
+        expect(getByText("Order Cost: $1.05")).toBeInTheDocument()
+        fireEvent.click(getByText('steak $ 1.50'))
+        expect(getByText("Order Cost: $2.55")).toBeInTheDocument()
+
 
     })
         
