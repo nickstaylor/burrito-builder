@@ -6,7 +6,7 @@ const Orders = props => {
     return (
       <div className="order" key={i}>
         <h3>{order.name}</h3>
-        {order.cost && <h4>Cost: ${order.cost}</h4>}
+        {order.cost && <h4>Cost: ${Number(order.cost).toFixed(2)}</h4>}
         <ul className="ingredient-list">
           {order.ingredients.map((ingredient, i) => {
             return <li key={i}>{ingredient}</li>

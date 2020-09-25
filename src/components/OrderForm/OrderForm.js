@@ -35,7 +35,6 @@ class OrderForm extends Component {
   handleIngredientandCostChange = (e) => {
     e.preventDefault()
     const { name, id } = e.target
-    console.log(typeof id);
     let count = 0
     this.state.ingredients.forEach(ingredient => {
       if (name === ingredient) {
@@ -47,10 +46,8 @@ class OrderForm extends Component {
       return
     }
     let newIngredients = [...this.state.ingredients, name]
-
     let orderCost = this.state.totalOrderCost
     let total = orderCost + (+id)
-    console.log(total);
     this.setState({ingredients: newIngredients, totalOrderCost: total})
   }
 
@@ -71,7 +68,7 @@ class OrderForm extends Component {
         </button>
       )
     });
-    // console.log('ingredients', this.state.ingredients);a
+  
     return (
       <form
         style={{
